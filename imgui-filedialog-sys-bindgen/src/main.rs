@@ -35,6 +35,9 @@ fn main() {
         .parse_callbacks(Box::new(CargoCallbacks))
         .clang_arg("-DCIMGUI_DEFINE_ENUMS_AND_STRUCTS=1")
         .whitelist_function("IGFD_.*")
+        .whitelist_type("IGFD_.*")
+        .bitfield_enum(".*Flags_")
+        .prepend_enum_name(false)
         .generate()
         .expect("Unable to generate bindings");
 
