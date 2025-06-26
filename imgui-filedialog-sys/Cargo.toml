@@ -2,7 +2,7 @@
 name = "imgui-filedialog-sys"
 version = "0.2.0"
 edition = "2018"
-authors = ["Ben Dickson"]
+authors = ["Ben Dickson", "Marius Metzger"]
 description = "Raw FFI bindings to ImGuiFileDialog"
 license = "MIT"
 categories = ["gui", "external-ffi-bindings"]
