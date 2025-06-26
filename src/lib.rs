@@ -142,6 +142,7 @@ impl FileDialog {
     }
 
     /// Displays the dialog and returns true if a result was obtained (ok or not).
+    /// If max size is not larger than min size, the window is made no-resize.
     ///
     /// Arguments:
     /// - `flags` - ImGui window flags
@@ -149,12 +150,21 @@ impl FileDialog {
     /// - `max_size` - Maximum window size
     pub fn display(
         &self,
-        flags: WindowFlags,
+        mut flags: WindowFlags,
         min_size: impl Into<MintVec2>,
         max_size: impl Into<MintVec2>,
     ) -> bool {
         let min_size = min_size.into();
-        let max_size = max_size.into();
+        let mut max_size = max_size.into();
+
+        if max_size.x <= min_size.x && max_size.y <= min_size.y {
+            flags |= WindowFlags::NO_RESIZE;
+        }
+
+        // ensure max size isn't smaller than min size
+        max_size.x = max_size.x.max(min_size.x);
+        max_size.y = max_size.y.max(min_size.y);
+
         unsafe {
             sys::IGFD_DisplayDialog(
                 self.context.ptr,
