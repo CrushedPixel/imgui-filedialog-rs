@@ -4,6 +4,7 @@ bitflags! {
     /// File dialog behavior flags
     #[repr(transparent)]
     #[cfg_attr(feature = "bevy_reflect", derive(bevy_reflect::Reflect))]
+    #[derive(Debug, Copy, Clone)]
     pub struct FileDialogFlags: sys::ImGuiFileDialogFlags_ {
         /// No special flags
         const NONE = sys::ImGuiFileDialogFlags_None;
@@ -49,6 +50,7 @@ bitflags! {
     /// File style flags for customizing file appearance
     #[repr(transparent)]
     #[cfg_attr(feature = "bevy_reflect", derive(bevy_reflect::Reflect))]
+    #[derive(Debug, Copy, Clone)]
     pub struct FileStyleFlags: sys::IGFD_FileStyleFlags_ {
         /// No style
         const NONE = sys::IGFD_FileStyle_None;
