@@ -1822,3 +1822,11 @@ extern "C" {
 extern "C" {
     pub fn IGFD_ClearFilesStyle(vContextPtr: *mut ImGuiFileDialog);
 }
+extern "C" {
+    pub fn SetLocales(
+        vContextPtr: *mut ImGuiFileDialog,
+        vCategory: ::std::os::raw::c_int,
+        vBeginLocale: *const ::std::os::raw::c_char,
+        vEndLocale: *const ::std::os::raw::c_char,
+    );
+}
