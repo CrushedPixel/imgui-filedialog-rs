@@ -68,10 +68,11 @@ impl Default for FileDialogConfig {
 }
 
 /// How to handle file extensions in results
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Default)]
 #[cfg_attr(feature = "bevy_reflect", derive(bevy_reflect::Reflect))]
 pub enum ResultMode {
     /// Add file extension if none exists
+    #[default]
     AddIfNoFileExt = sys::IGFD_ResultMode_AddIfNoFileExt as isize,
     /// Overwrite existing file extension with current filter
     OverwriteFileExt = sys::IGFD_ResultMode_OverwriteFileExt as isize,
@@ -101,19 +102,16 @@ impl FileDialog {
     ///
     /// Arguments:
     /// - `title` - Dialog window title
-    /// - `filters` - File filters (e.g., "Image files{.png,.jpg,.jpeg},Text files{.txt}")
+    /// - `filters` - File filters (e.g., "Image files{.png,.jpg,.jpeg},Text files{.txt}" or ".json,.yaml")
     /// - `config` - Dialog configuration options
     pub fn open(
         &self,
-        title: impl Into<Vec<u8>>,
-        filters: Option<impl Into<Vec<u8>>>,
+        title: impl Into<String>,
+        filters: Option<impl Into<String>>,
         config: FileDialogConfig,
     ) {
-        let title_cstr = CString::new(title).unwrap();
-        let filters_ptr = match filters {
-            Some(f) => CString::new(f).unwrap().as_ptr(),
-            None => std::ptr::null(),
-        };
+        let title_cstr = CString::new(title.into()).unwrap();
+        let filters_cstr = filters.map(|f| CString::new(f.into()).unwrap());
 
         let path_cstr = CString::new(config.path.as_str()).unwrap();
         let filename_cstr = CString::new(config.file_name.as_str()).unwrap();
@@ -135,7 +133,9 @@ impl FileDialog {
                 self.context.ptr,
                 self.id.as_ptr(),
                 title_cstr.as_ptr(),
-                filters_ptr,
+                filters_cstr
+                    .as_ref() // important - otherwise value gets moved out and dropped
+                    .map_or(std::ptr::null(), |c| c.as_ptr()),
                 c_config,
             );
         }
@@ -265,12 +265,12 @@ impl FileDialog {
     pub fn set_file_style(
         &self,
         flags: FileStyleFlags,
-        criteria: impl Into<Vec<u8>>,
+        criteria: impl Into<String>,
         color: impl Into<MintVec4>,
-        icon: Option<impl Into<Vec<u8>>>,
+        icon: Option<impl Into<String>>,
     ) {
-        let criteria_cstr = CString::new(criteria).unwrap();
-        let icon_cstr = icon.map(|i| CString::new(i).unwrap());
+        let criteria_cstr = CString::new(criteria.into()).unwrap();
+        let icon_cstr = icon.map(|i| CString::new(i.into()).unwrap());
         let icon_ptr = icon_cstr.as_ref().map_or(std::ptr::null(), |c| c.as_ptr());
 
         let color = color.into();
