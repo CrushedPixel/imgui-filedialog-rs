@@ -1458,57 +1458,33 @@ fn bindgen_test_layout_ImFont() {
 #[doc = " FLAGS /////////////////////////////////////"]
 #[doc = ""]
 pub type IGFD_FileStyleFlags = ::std::os::raw::c_int;
-impl IGFD_FileStyleFlags_ {
-    pub const IGFD_FileStyle_None: IGFD_FileStyleFlags_ = IGFD_FileStyleFlags_(0);
-}
-impl IGFD_FileStyleFlags_ {
-    pub const IGFD_FileStyleByTypeFile: IGFD_FileStyleFlags_ = IGFD_FileStyleFlags_(1);
-}
-impl IGFD_FileStyleFlags_ {
-    pub const IGFD_FileStyleByTypeDir: IGFD_FileStyleFlags_ = IGFD_FileStyleFlags_(2);
-}
-impl IGFD_FileStyleFlags_ {
-    pub const IGFD_FileStyleByTypeLink: IGFD_FileStyleFlags_ = IGFD_FileStyleFlags_(4);
-}
-impl IGFD_FileStyleFlags_ {
-    pub const IGFD_FileStyleByExtention: IGFD_FileStyleFlags_ = IGFD_FileStyleFlags_(8);
-}
-impl IGFD_FileStyleFlags_ {
-    pub const IGFD_FileStyleByFullName: IGFD_FileStyleFlags_ = IGFD_FileStyleFlags_(16);
-}
-impl IGFD_FileStyleFlags_ {
-    pub const IGFD_FileStyleByContainedInFullName: IGFD_FileStyleFlags_ = IGFD_FileStyleFlags_(32);
-}
-impl ::std::ops::BitOr<IGFD_FileStyleFlags_> for IGFD_FileStyleFlags_ {
-    type Output = Self;
-    #[inline]
-    fn bitor(self, other: Self) -> Self {
-        IGFD_FileStyleFlags_(self.0 | other.0)
-    }
-}
-impl ::std::ops::BitOrAssign for IGFD_FileStyleFlags_ {
-    #[inline]
-    fn bitor_assign(&mut self, rhs: IGFD_FileStyleFlags_) {
-        self.0 |= rhs.0;
-    }
-}
-impl ::std::ops::BitAnd<IGFD_FileStyleFlags_> for IGFD_FileStyleFlags_ {
-    type Output = Self;
-    #[inline]
-    fn bitand(self, other: Self) -> Self {
-        IGFD_FileStyleFlags_(self.0 & other.0)
-    }
-}
-impl ::std::ops::BitAndAssign for IGFD_FileStyleFlags_ {
-    #[inline]
-    fn bitand_assign(&mut self, rhs: IGFD_FileStyleFlags_) {
-        self.0 &= rhs.0;
-    }
-}
-#[repr(transparent)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub struct IGFD_FileStyleFlags_(pub ::std::os::raw::c_uint);
+pub const IGFD_FileStyle_None: IGFD_FileStyleFlags_ = 0;
+pub const IGFD_FileStyleByTypeFile: IGFD_FileStyleFlags_ = 1;
+pub const IGFD_FileStyleByTypeDir: IGFD_FileStyleFlags_ = 2;
+pub const IGFD_FileStyleByTypeLink: IGFD_FileStyleFlags_ = 4;
+pub const IGFD_FileStyleByExtention: IGFD_FileStyleFlags_ = 8;
+pub const IGFD_FileStyleByFullName: IGFD_FileStyleFlags_ = 16;
+pub const IGFD_FileStyleByContainedInFullName: IGFD_FileStyleFlags_ = 32;
+pub type IGFD_FileStyleFlags_ = ::std::os::raw::c_uint;
 pub type ImGuiFileDialogFlags = ::std::os::raw::c_int;
+pub const ImGuiFileDialogFlags_None: ImGuiFileDialogFlags_ = 0;
+pub const ImGuiFileDialogFlags_ConfirmOverwrite: ImGuiFileDialogFlags_ = 1;
+pub const ImGuiFileDialogFlags_DontShowHiddenFiles: ImGuiFileDialogFlags_ = 2;
+pub const ImGuiFileDialogFlags_DisableCreateDirectoryButton: ImGuiFileDialogFlags_ = 4;
+pub const ImGuiFileDialogFlags_HideColumnType: ImGuiFileDialogFlags_ = 8;
+pub const ImGuiFileDialogFlags_HideColumnSize: ImGuiFileDialogFlags_ = 16;
+pub const ImGuiFileDialogFlags_HideColumnDate: ImGuiFileDialogFlags_ = 32;
+pub const ImGuiFileDialogFlags_NoDialog: ImGuiFileDialogFlags_ = 64;
+pub const ImGuiFileDialogFlags_ReadOnlyFileNameField: ImGuiFileDialogFlags_ = 128;
+pub const ImGuiFileDialogFlags_CaseInsensitiveExtentionFiltering: ImGuiFileDialogFlags_ = 256;
+pub const ImGuiFileDialogFlags_Modal: ImGuiFileDialogFlags_ = 512;
+pub const ImGuiFileDialogFlags_DisableThumbnailMode: ImGuiFileDialogFlags_ = 1024;
+pub const ImGuiFileDialogFlags_DisablePlaceMode: ImGuiFileDialogFlags_ = 2048;
+pub const ImGuiFileDialogFlags_DisableQuickPathSelection: ImGuiFileDialogFlags_ = 4096;
+pub const ImGuiFileDialogFlags_ShowDevicesButton: ImGuiFileDialogFlags_ = 8192;
+pub const ImGuiFileDialogFlags_NaturalSorting: ImGuiFileDialogFlags_ = 16384;
+pub const ImGuiFileDialogFlags_Default: ImGuiFileDialogFlags_ = 521;
+pub type ImGuiFileDialogFlags_ = ::std::os::raw::c_uint;
 pub type IGFD_ResultMode = ::std::os::raw::c_int;
 pub const IGFD_ResultMode_AddIfNoFileExt: IGFD_ResultMode_ = 0;
 pub const IGFD_ResultMode_OverwriteFileExt: IGFD_ResultMode_ = 1;
