@@ -6,9 +6,11 @@ mod util;
 use std::ffi::CString;
 
 pub use crate::flags::{FileDialogFlags, FileStyleFlags};
+pub use imgui::WindowFlags;
+
 use crate::selection::Selection;
 use crate::util::ptr_into_string;
-use imgui::{ImString, WindowFlags};
+use imgui::ImString;
 
 // matches imgui-rs that also expects Into<MintVec2> as args
 type MintVec2 = mint::Vector2<f32>;
@@ -39,11 +41,11 @@ impl Drop for Context {
 #[cfg_attr(feature = "bevy_reflect", derive(bevy_reflect::Reflect))]
 pub struct FileDialogConfig {
     /// Initial path to open
-    pub path: Option<String>,
+    pub path: String,
     /// Default filename
-    pub file_name: Option<String>,
+    pub file_name: String,
     /// Combined file path and name (takes precedence over separate path/filename)
-    pub file_path_name: Option<String>,
+    pub file_path_name: String,
     /// Maximum number of files that can be selected (0 = unlimited)
     pub count_selection_max: i32,
     /// Dialog behavior flags
@@ -55,9 +57,9 @@ pub struct FileDialogConfig {
 impl Default for FileDialogConfig {
     fn default() -> Self {
         Self {
-            path: None,
-            file_name: None,
-            file_path_name: None,
+            path: Default::default(),
+            file_name: Default::default(),
+            file_path_name: Default::default(),
             count_selection_max: 1,
             flags: FileDialogFlags::DEFAULT,
             side_pane_width: 250.0,
@@ -113,27 +115,14 @@ impl FileDialog {
             None => std::ptr::null(),
         };
 
-        let path_cstr = config
-            .path
-            .as_ref()
-            .map(|p| CString::new(p.as_str()).unwrap());
-        let filename_cstr = config
-            .file_name
-            .as_ref()
-            .map(|f| CString::new(f.as_str()).unwrap());
-        let filepath_cstr = config
-            .file_path_name
-            .as_ref()
-            .map(|fp| CString::new(fp.as_str()).unwrap());
+        let path_cstr = CString::new(config.path.as_str()).unwrap();
+        let filename_cstr = CString::new(config.file_name.as_str()).unwrap();
+        let filepath_cstr = CString::new(config.file_path_name.as_str()).unwrap();
 
         let c_config = sys::IGFD_FileDialog_Config {
-            path: path_cstr.as_ref().map_or(std::ptr::null(), |c| c.as_ptr()),
-            fileName: filename_cstr
-                .as_ref()
-                .map_or(std::ptr::null(), |c| c.as_ptr()),
-            filePathName: filepath_cstr
-                .as_ref()
-                .map_or(std::ptr::null(), |c| c.as_ptr()),
+            path: path_cstr.as_ptr(),
+            fileName: filename_cstr.as_ptr(),
+            filePathName: filepath_cstr.as_ptr(),
             countSelectionMax: config.count_selection_max,
             userDatas: std::ptr::null_mut(),
             sidePane: None,
@@ -152,7 +141,7 @@ impl FileDialog {
         }
     }
 
-    /// Displays the dialog and returns true if it should continue being shown.
+    /// Displays the dialog and returns true if a result was obtained (ok or not).
     ///
     /// Arguments:
     /// - `flags` - ImGui window flags
